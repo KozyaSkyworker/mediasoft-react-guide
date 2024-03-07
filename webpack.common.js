@@ -1,21 +1,14 @@
 const path = require('path');
+const webpack = require('webpack');
+
+require('dotenv').config();
 
 module.exports = {
-  mode: 'development',
   entry: path.resolve(__dirname, 'src', 'index.tsx'), // точка входа
   // выход
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
-  },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'), // где index.html
-    },
-    port: 3000,
-    compress: true,
-    open: true,
-    hot: true,
   },
   module: {
     rules: [
@@ -27,6 +20,15 @@ module.exports = {
     ],
   },
   resolve: {
+    alias: {
+      '@store': path.resolve(__dirname, './src/store'),
+      '@components': path.resolve(__dirname, './src/components'),
+    },
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+    }),
+  ],
 };
