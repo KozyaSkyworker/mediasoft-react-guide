@@ -1,8 +1,8 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const App = () => {
-  console.log(NODE_ENV);
-  return <div>123</div>;
+  return <div></div>;
 };
 
 export default App;
