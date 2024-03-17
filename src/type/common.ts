@@ -3,3 +3,8 @@ export type TCard = {
     bg: string;
 };
 
+export type TCharacter = {
+    id: number,
+    name: string,
+    image: string
+}

@@ -1,6 +1,7 @@
 import { Card } from '@components/Card';
-import { TCard } from '@type/common';
-import React, { useState } from 'react';
+import { TCard, TCharacter } from '@type/common';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const App = () => {
   // карточки для перетаскивания
@@ -51,15 +52,31 @@ const App = () => {
   });
 
   // текущая выбранная карточка для перетаскивания
-  const [curCard, setCurCard] = useState<TCard | null>(null);
+  const [curCard, setCurCard] = useState<TCharacter | null>(null);
+
+  const [characters, setCharacters] = useState<TCharacter[]>([]);
+
+  const fetchAllCharactes = async () => {
+    const response = await axios.get('https://rickandmortyapi.com/api/character?page=2');
+    console.log(response.data.results);
+    setCharacters(response.data.results);
+  };
+
+  useEffect(() => {
+    fetchAllCharactes();
+  }, []);
 
   return (
     <div>
       <div className="wrapper bg-black w-screen h-screen flex items-center justify-center relative">
-        <div className="cards w-1/3 h-1/3 bg-gray-900 rounded relative">
-          {cards.map((card) => (
+        <div className="cards w-[300px] h-[300px] bg-gray-900 rounded relative flex items-center justify-center">
+          {/* {cards.map((card) => (
             <Card key={card.id} card={card} setCurCard={setCurCard} />
+          ))} */}
+          {characters.map((char) => (
+            <Card key={char.id} char={char} setCurCard={setCurCard} />
           ))}
+          <p className="text-white font-medium">Кажется, всё</p>
         </div>
 
         <div
@@ -77,7 +94,7 @@ const App = () => {
             e.preventDefault();
             let newCount = myCounts.hate + 1;
             setMyCounts({ ...myCounts, hate: newCount });
-            setCards(cards.filter((el) => el.id != curCard.id));
+            setCharacters(characters.filter((el) => el.id != curCard.id));
             console.log('drop');
           }}>
           <p className="text-white font-medium">
@@ -96,7 +113,7 @@ const App = () => {
             e.preventDefault();
             let newCount = myCounts.like + 1;
             setMyCounts({ ...myCounts, like: newCount });
-            setCards(cards.filter((el) => el.id != curCard.id));
+            setCharacters(characters.filter((el) => el.id != curCard.id));
             console.log('drop');
           }}>
           <p className="text-white font-medium">
@@ -115,7 +132,7 @@ const App = () => {
             e.preventDefault();
             let newCount = myCounts.idk + 1;
             setMyCounts({ ...myCounts, idk: newCount });
-            setCards(cards.filter((el) => el.id != curCard.id));
+            setCharacters(characters.filter((el) => el.id != curCard.id));
             console.log('drop');
           }}>
           <p className="text-white font-medium">
