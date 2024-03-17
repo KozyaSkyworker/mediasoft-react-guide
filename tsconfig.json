@@ -8,10 +8,12 @@
         "allowJs": true,
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
+        // "strictNullChecks": true,
         "baseUrl": "./src",
         "paths": {
             "@store/*": ["./store/*"],
-            "@components/*": ["./components/*"]
+            "@components/*": ["./components/*"],
+            "@type/*": ["./type/*"]
         }
     }
 }

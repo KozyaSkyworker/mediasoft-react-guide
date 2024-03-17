@@ -1,14 +1,10 @@
-import axios from 'axios';
-import React, { DragEventHandler, useEffect, useState } from 'react';
-
-type Card = {
-  id: number;
-  bg: string;
-};
+import { Card } from '@components/Card';
+import { TCard } from '@type/common';
+import React, { useState } from 'react';
 
 const App = () => {
   // карточки для перетаскивания
-  const [cards, setCards] = useState<Card[]>([
+  const [cards, setCards] = useState<TCard[]>([
     {
       id: 1,
       bg: 'bg-rose-500',
@@ -55,35 +51,22 @@ const App = () => {
   });
 
   // текущая выбранная карточка для перетаскивания
-  const [curCard, setCurCard] = useState<Card | null>(null);
-
-  const handlerDragStart = (event: React.DragEvent<HTMLDivElement>, card: Card) => {
-    setCurCard(card);
-  };
+  const [curCard, setCurCard] = useState<TCard | null>(null);
 
   return (
     <div>
       <div className="wrapper bg-black w-screen h-screen flex items-center justify-center relative">
         <div className="cards w-1/3 h-1/3 bg-gray-900 rounded relative">
           {cards.map((card) => (
-            <div
-              className={`card absolute top-0 left-0 bottom-0 right-0 ${card.bg} text-white font-medium text-2xl rounded flex items-center justify-center`}
-              key={card.id}
-              onDragStart={(e) => {
-                handlerDragStart(e, card);
-              }}
-              onDragOver={(e) => e.preventDefault()}
-              onDragEnd={(e) => {
-                console.log('drag end card');
-              }}
-              draggable={true}>
-              {card.id}
-            </div>
+            <Card key={card.id} card={card} setCurCard={setCurCard} />
           ))}
         </div>
 
         <div
           className="target absolute bottom-5 left-5 rounded bg-red-600 flex items-center justify-center w-32 h-32 "
+          onDragStart={(e) => {
+            e.preventDefault();
+          }}
           onDragOver={(e) => {
             e.preventDefault();
           }}
