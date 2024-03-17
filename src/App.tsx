@@ -1,48 +1,10 @@
 import { Card } from '@components/Card';
-import { TCard, TCharacter } from '@type/common';
+import { TCharacter } from '@type/common';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 const App = () => {
-  // карточки для перетаскивания
-  const [cards, setCards] = useState<TCard[]>([
-    {
-      id: 1,
-      bg: 'bg-rose-500',
-    },
-    {
-      id: 2,
-      bg: 'bg-pink-500',
-    },
-    {
-      id: 3,
-      bg: 'bg-fuchsia-500',
-    },
-    {
-      id: 4,
-      bg: 'bg-purple-500',
-    },
-    {
-      id: 5,
-      bg: 'bg-indigo-500',
-    },
-    {
-      id: 6,
-      bg: 'bg-sky-500',
-    },
-    {
-      id: 7,
-      bg: 'bg-green-500',
-    },
-    {
-      id: 8,
-      bg: 'bg-orange-500',
-    },
-    {
-      id: 9,
-      bg: 'bg-cyan-500',
-    },
-  ]);
+  console.log('render');
 
   // счёт карточек по категориям
   const [myCounts, setMyCounts] = useState({
@@ -57,8 +19,8 @@ const App = () => {
   const [characters, setCharacters] = useState<TCharacter[]>([]);
 
   const fetchAllCharactes = async () => {
-    const response = await axios.get('https://rickandmortyapi.com/api/character?page=2');
-    console.log(response.data.results);
+    const response = await axios.get('https://rickandmortyapi.com/api/character?page=42');
+    console.log(response.data);
     setCharacters(response.data.results);
   };
 
@@ -76,7 +38,10 @@ const App = () => {
           {characters.map((char) => (
             <Card key={char.id} char={char} setCurCard={setCurCard} />
           ))}
-          <p className="text-white font-medium">Кажется, всё</p>
+          <p className="block text-white font-medium">Кажется, всё</p>
+          <button className="block bg-black text-white rounded hover:bg-gray-800 p-2">
+            Смотреть результаты
+          </button>
         </div>
 
         <div
@@ -103,6 +68,9 @@ const App = () => {
         </div>
         <div
           className="target absolute bottom-5 right-5 rounded bg-green-500 flex items-center justify-center w-32 h-32 "
+          onDragStart={(e) => {
+            e.preventDefault();
+          }}
           onDragOver={(e) => {
             e.preventDefault();
           }}
@@ -122,6 +90,9 @@ const App = () => {
         </div>
         <div
           className="target absolute top-5 right-5 rounded bg-yellow-500 flex items-center justify-center w-32 h-32 "
+          onDragStart={(e) => {
+            e.preventDefault();
+          }}
           onDragOver={(e) => {
             e.preventDefault();
           }}

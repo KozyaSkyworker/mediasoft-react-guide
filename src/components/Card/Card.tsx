@@ -1,4 +1,4 @@
-import { TCard, TCharacter } from '@type/common';
+import { TCharacter } from '@type/common';
 import * as React from 'react';
 
 type TProps = {
@@ -13,7 +13,7 @@ export const Card: React.FC<TProps> = ({ char, setCurCard }) => {
 
   return (
     <div
-      className={`card absolute top-0 left-0 bottom-0 right-0 text-white font-medium text-2xl rounded flex items-center justify-center`}
+      className={`card absolute transition-shadow cursor-grab top-0 left-0 bottom-0 right-0 text-white font-medium text-2xl rounded flex items-center justify-center`}
       style={{
         backgroundImage: `url("${char.image}")`,
         backgroundRepeat: 'no-repeat',
@@ -22,10 +22,12 @@ export const Card: React.FC<TProps> = ({ char, setCurCard }) => {
       }}
       key={char.id}
       onDragStart={(e) => {
+        e.currentTarget.classList.add('shadow-violet-500', 'shadow-2xl');
         handlerDragStart(e, char);
       }}
       onDragOver={(e) => e.preventDefault()}
       onDragEnd={(e) => {
+        e.currentTarget.classList.remove('shadow-violet-500', 'shadow-2xl');
         console.log('drag end card');
       }}
       draggable={true}>
