@@ -19,21 +19,41 @@ const App = () => {
     idk: 0,
   });
 
+  const [isFetchinData, setIsFetchingData] = useState(true);
+
+  const [nextPage, setNextPage] = useState<number | null>(1);
+
   // текущая выбранная карточка для перетаскивания
   const [curCard, setCurCard] = useState<TCharacter | null>(null);
 
   // персонажи
   const [characters, setCharacters] = useState<TCharacter[]>([]);
 
-  const fetchAllCharactes = async () => {
-    const response = await axios.get(`${process.env.API_BASE_URL}/character`);
-    console.log(response.data);
-    setCharacters(response.data.results);
+  const fetchAllCharactes = async (page: number) => {
+    const response = await axios.get(`${process.env.API_BASE_URL}/character?page=${page}`);
+
+    // console.log(response.data.info);
+
+    setCharacters([...response.data.results, ...characters]);
+
+    nextPage < response.data.info.pages ? setNextPage((prev) => prev + 1) : setNextPage(null);
+
+    setIsFetchingData(false);
   };
 
   useEffect(() => {
-    fetchAllCharactes();
+    fetchAllCharactes(nextPage);
   }, []);
+
+  useEffect(() => {
+    console.log(characters.length, isFetchinData, nextPage);
+
+    if (characters.length < 6 && !isFetchinData && nextPage) {
+      setIsFetchingData(true);
+      fetchAllCharactes(nextPage);
+      console.log('fetching new');
+    }
+  }, [characters.length]);
 
   return (
     <div>
