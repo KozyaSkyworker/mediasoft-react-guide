@@ -32,7 +32,9 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      // NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      // API_BASE_URL: JSON.stringify(process.env.API_BASE_URL),
+      'process.env': JSON.stringify(process.env),
     }),
   ],
 };

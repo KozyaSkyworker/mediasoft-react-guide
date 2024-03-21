@@ -1,10 +1,16 @@
 import { Card } from '@components/Card';
+import { incrementHate, incrementIDK, incrementLike } from '@store/counterSlice';
+import { RootState } from '@store/store';
 import { TCharacter } from '@type/common';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
   console.log('render');
+
+  const myCountsRedux = useSelector((state: RootState) => state.counters);
+  const dispatch = useDispatch();
 
   // счёт карточек по категориям
   const [myCounts, setMyCounts] = useState({
@@ -16,10 +22,11 @@ const App = () => {
   // текущая выбранная карточка для перетаскивания
   const [curCard, setCurCard] = useState<TCharacter | null>(null);
 
+  // персонажи
   const [characters, setCharacters] = useState<TCharacter[]>([]);
 
   const fetchAllCharactes = async () => {
-    const response = await axios.get('https://rickandmortyapi.com/api/character?page=42');
+    const response = await axios.get(`${process.env.API_BASE_URL}/character`);
     console.log(response.data);
     setCharacters(response.data.results);
   };
@@ -32,9 +39,6 @@ const App = () => {
     <div>
       <div className="wrapper bg-black w-screen h-screen flex items-center justify-center relative">
         <div className="cards w-[300px] h-[300px] bg-gray-900 rounded relative flex items-center justify-center">
-          {/* {cards.map((card) => (
-            <Card key={card.id} card={card} setCurCard={setCurCard} />
-          ))} */}
           {characters.map((char) => (
             <Card key={char.id} char={char} setCurCard={setCurCard} />
           ))}
@@ -59,11 +63,12 @@ const App = () => {
             e.preventDefault();
             let newCount = myCounts.hate + 1;
             setMyCounts({ ...myCounts, hate: newCount });
+            dispatch(incrementHate());
             setCharacters(characters.filter((el) => el.id != curCard.id));
             console.log('drop');
           }}>
           <p className="text-white font-medium">
-            I hate <span className="font-bold">{myCounts.hate}</span>
+            I hate <span className="font-bold">{myCountsRedux.hate}</span>
           </p>
         </div>
         <div
@@ -81,11 +86,12 @@ const App = () => {
             e.preventDefault();
             let newCount = myCounts.like + 1;
             setMyCounts({ ...myCounts, like: newCount });
+            dispatch(incrementLike());
             setCharacters(characters.filter((el) => el.id != curCard.id));
             console.log('drop');
           }}>
           <p className="text-white font-medium">
-            I like <span className="font-bold">{myCounts.like}</span>
+            I like <span className="font-bold">{myCountsRedux.like}</span>
           </p>
         </div>
         <div
@@ -103,11 +109,12 @@ const App = () => {
             e.preventDefault();
             let newCount = myCounts.idk + 1;
             setMyCounts({ ...myCounts, idk: newCount });
+            dispatch(incrementIDK());
             setCharacters(characters.filter((el) => el.id != curCard.id));
             console.log('drop');
           }}>
           <p className="text-white font-medium">
-            IDK <span className="font-bold">{myCounts.idk}</span>
+            I.D.K. <span className="font-bold">{myCountsRedux.idk}</span>
           </p>
         </div>
       </div>
