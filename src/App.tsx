@@ -1,4 +1,5 @@
 import { Card } from '@components/Card';
+import { Target } from '@components/Target';
 import { incrementHate, incrementIDK, incrementLike } from '@store/counterSlice';
 import { RootState } from '@store/store';
 import { TCharacter } from '@type/common';
@@ -68,75 +69,30 @@ const App = () => {
           </button>
         </div>
 
-        <div
-          className="target absolute bottom-5 left-5 rounded bg-red-600 flex items-center justify-center w-32 h-32 "
-          onDragStart={(e) => {
-            e.preventDefault();
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-          }}
-          onDragEnd={(e) => {
-            console.log('drag end');
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            let newCount = myCounts.hate + 1;
-            setMyCounts({ ...myCounts, hate: newCount });
-            dispatch(incrementHate());
-            setCharacters(characters.filter((el) => el.id != curCard.id));
-            console.log('drop');
-          }}>
-          <p className="text-white font-medium">
-            I hate <span className="font-bold">{myCountsRedux.hate}</span>
-          </p>
-        </div>
-        <div
-          className="target absolute bottom-5 right-5 rounded bg-green-500 flex items-center justify-center w-32 h-32 "
-          onDragStart={(e) => {
-            e.preventDefault();
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-          }}
-          onDragEnd={(e) => {
-            console.log('drag end');
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            let newCount = myCounts.like + 1;
-            setMyCounts({ ...myCounts, like: newCount });
-            dispatch(incrementLike());
-            setCharacters(characters.filter((el) => el.id != curCard.id));
-            console.log('drop');
-          }}>
-          <p className="text-white font-medium">
-            I like <span className="font-bold">{myCountsRedux.like}</span>
-          </p>
-        </div>
-        <div
-          className="target absolute top-5 right-5 rounded bg-yellow-500 flex items-center justify-center w-32 h-32 "
-          onDragStart={(e) => {
-            e.preventDefault();
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-          }}
-          onDragEnd={(e) => {
-            console.log('drag end');
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            let newCount = myCounts.idk + 1;
-            setMyCounts({ ...myCounts, idk: newCount });
-            dispatch(incrementIDK());
-            setCharacters(characters.filter((el) => el.id != curCard.id));
-            console.log('drop');
-          }}>
-          <p className="text-white font-medium">
-            I.D.K. <span className="font-bold">{myCountsRedux.idk}</span>
-          </p>
-        </div>
+        <Target
+          label={'I Hate'}
+          styles={'bottom-5 left-5 bg-red-600'}
+          targetType={'hate'}
+          characters={characters}
+          setCharacters={setCharacters}
+          curCard={curCard}
+        />
+        <Target
+          label={'I Like'}
+          styles={'bottom-5 right-5 bg-green-500'}
+          targetType={'like'}
+          characters={characters}
+          setCharacters={setCharacters}
+          curCard={curCard}
+        />
+        <Target
+          label={'I.D.K.'}
+          styles={'top-5 right-5 bg-yellow-500'}
+          targetType={'idk'}
+          characters={characters}
+          setCharacters={setCharacters}
+          curCard={curCard}
+        />
       </div>
     </div>
   );
