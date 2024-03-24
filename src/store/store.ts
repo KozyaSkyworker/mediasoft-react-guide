@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import countersReducer from './counterSlice'
+import charactersReducer from './charactersSlice'
 
 export const store = configureStore({
   reducer: {
-    'counters': countersReducer
+    'counters': countersReducer, // счётчики перетаскиваний
+    'characters': charactersReducer // персонажи
   },
 })
 

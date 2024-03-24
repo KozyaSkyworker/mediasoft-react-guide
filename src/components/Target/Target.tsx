@@ -1,32 +1,19 @@
-import { incrementHate, incrementLike, incrementIDK } from '@store/counterSlice';
+import { removeCharacter } from '@store/charactersSlice';
+import { addNewHate, addNewLike, addNewIDK } from '@store/counterSlice';
 import { RootState } from '@store/store';
 import { TCharacter } from '@type/common';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-enum targetTypeEnum {
-  hate = 'hate',
-  like = 'like',
-  idk = 'idk',
-}
-
 type TProps = {
   label: string;
   styles: string;
   targetType: 'hate' | 'like' | 'idk';
-  characters: TCharacter[];
-  setCharacters: React.Dispatch<React.SetStateAction<TCharacter[]>>;
   curCard: TCharacter;
 };
 
-export const Target: React.FC<TProps> = ({
-  label,
-  styles,
-  targetType,
-  characters,
-  setCharacters,
-  curCard,
-}) => {
+export const Target: React.FC<TProps> = ({ label, styles, targetType, curCard }) => {
+  console.log('target render');
   const myCountsRedux = useSelector((state: RootState) => state.counters);
   const dispatch = useDispatch();
 
@@ -39,26 +26,27 @@ export const Target: React.FC<TProps> = ({
       onDragOver={(e) => {
         e.preventDefault();
       }}
-      onDragEnd={(e) => {
-        console.log('drag end');
-      }}
+      onDragEnd={(e) => {}}
       onDrop={(e) => {
         e.preventDefault();
+
+        // Это можно, наверное, как-то перписать поумнее
+
         switch (label) {
           case 'I Hate':
-            dispatch(incrementHate());
+            dispatch(addNewHate(curCard.name));
             break;
           case 'I Like':
-            dispatch(incrementLike());
+            dispatch(addNewLike(curCard.name));
             break;
           case 'I.D.K.':
-            dispatch(incrementIDK());
+            dispatch(addNewIDK(curCard.name));
             break;
         }
-        setCharacters(characters.filter((el) => el.id != curCard.id));
+        dispatch(removeCharacter(curCard.id));
       }}>
       <p className="text-white font-medium">
-        {label} <span className="font-bold">{myCountsRedux[targetType]}</span>
+        {label} <span className="font-bold">{myCountsRedux[targetType].length}</span>
       </p>
     </div>
   );

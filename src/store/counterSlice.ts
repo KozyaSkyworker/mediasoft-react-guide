@@ -1,36 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export interface CountersState {
-  hate: number,
-  like: number,
-  idk: number
+  hate: string[],
+  like: string[],
+  idk: string[]
 }
 
 const initialState: CountersState = {
-  hate: 0,
-  like: 0,
-  idk: 0,
+  hate: [],
+  like: [],
+  idk: [],
 }
 
 export const countersSlice = createSlice({
   name: 'counters',
   initialState,
   reducers: {
-    incrementHate: (state) => {
+    addNewHate: (state, action: PayloadAction<string>) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. 
       // It doesn't actually mutate the state because it uses the Immer library
-      state.hate += 1 
+      state.hate.push(action.payload)
     },
-    incrementLike: (state) => {
-      state.like += 1
+    addNewLike: (state, action: PayloadAction<string>) => {
+      state.like.push(action.payload)
     },
-    incrementIDK: (state) => {
-      state.idk += 1
+    addNewIDK: (state, action: PayloadAction<string>) => {
+      state.idk.push(action.payload)
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { incrementHate, incrementLike, incrementIDK } = countersSlice.actions
+export const { addNewHate, addNewLike, addNewIDK } = countersSlice.actions
 
 export default countersSlice.reducer

@@ -1,0 +1,12 @@
+ol::-webkit-scrollbar {
+    width: 7px;               /* ширина всей полосы прокрутки */
+  }
+  
+  ol::-webkit-scrollbar-track {
+    background: RGB(43, 53, 68);        /* цвет зоны отслеживания */
+  }
+  
+  ol::-webkit-scrollbar-thumb {
+    background-color: black;    /* цвет бегунка */
+    border-radius: 10px;       /* округлось бегунка */
+  }

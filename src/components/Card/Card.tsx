@@ -6,8 +6,10 @@ type TProps = {
   setCurCard: React.Dispatch<React.SetStateAction<TCharacter | null>>;
 };
 
-export const Card: React.FC<TProps> = ({ char, setCurCard }) => {
+export const Card: React.FC<TProps> = React.memo(function Card({ char, setCurCard }) {
+  console.log('card render');
   const handlerDragStart = (event: React.DragEvent<HTMLDivElement>, char: TCharacter) => {
+    console.log('start card grab');
     setCurCard(char);
   };
 
@@ -18,7 +20,7 @@ export const Card: React.FC<TProps> = ({ char, setCurCard }) => {
         backgroundImage: `url("${char.image}")`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        backgroundSize: 'contain',
+        backgroundSize: 'cover',
       }}
       key={char.id}
       onDragStart={(e) => {
@@ -28,10 +30,9 @@ export const Card: React.FC<TProps> = ({ char, setCurCard }) => {
       onDragOver={(e) => e.preventDefault()}
       onDragEnd={(e) => {
         e.currentTarget.classList.remove('shadow-violet-500', 'shadow-2xl');
-        console.log('drag end card');
       }}
       draggable={true}>
       <p className="bg-black p-1 rounded text-[14px] absolute top-2 left-2">{char.name}</p>
     </div>
   );
-};
+});
