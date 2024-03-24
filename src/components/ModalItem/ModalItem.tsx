@@ -9,7 +9,6 @@ type TProps = {
 
 export const ModalItem: React.FC<TProps> = ({ label, itemType }) => {
   const [isItemActive, setIsActiveActive] = useState(false);
-
   const myCountsRedux = useSelector((state: RootState) => state.counters);
 
   return (
@@ -24,15 +23,17 @@ export const ModalItem: React.FC<TProps> = ({ label, itemType }) => {
         <span className="font-medium">{myCountsRedux[itemType].length}</span>
       </div>
       {/* {isItemActive && <div className="item__content py-2">12312313</div>} */}
-      <div className={`item__content p-2 ${isItemActive ? 'h-max' : 'h-0'}`}>
-        <ol className="list-decimal px-2 pl-4 h-[350px] overflow-y-scroll">
-          {myCountsRedux[itemType].map((item, indx) => (
-            <li key={indx} className="my-2 ">
-              {item}
-            </li>
-          ))}
-        </ol>
-      </div>
+      {isItemActive && (
+        <div className={`item__content px-2 pb-2 `}>
+          <ol className="list-decimal px-2 pl-4 h-[350px] overflow-y-scroll">
+            {myCountsRedux[itemType].map((item, indx) => (
+              <li key={indx} className="my-2 ">
+                {item}
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </div>
   );
 };

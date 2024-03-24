@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import countersReducer from './counterSlice'
 import charactersReducer from './charactersSlice'
+import curCardReducer from './curCardSlice'
 
 export const store = configureStore({
   reducer: {
     'counters': countersReducer, // счётчики перетаскиваний
-    'characters': charactersReducer // персонажи
+    'characters': charactersReducer, // персонажи
+    'curCard': curCardReducer // текущая взятая карточка
   },
 })
 

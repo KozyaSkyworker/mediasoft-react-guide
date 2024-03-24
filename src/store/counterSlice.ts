@@ -1,12 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { TCounters } from '@type/common'
 
-export interface CountersState {
-  hate: string[],
-  like: string[],
-  idk: string[]
-}
 
-const initialState: CountersState = {
+const initialState: TCounters = {
   hate: [],
   like: [],
   idk: [],

@@ -1,19 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { TCharacter } from '@type/common'
 
-export interface CharactersState {
-    id: number,
-    name: string,
-    image: string
-}
-
-const initialState: CharactersState[] = []
+const initialState: TCharacter[] = []
 
 export const countersSlice = createSlice({
   name: 'characters',
   initialState,
   reducers: {
     
-    setCharacters: (state, action: PayloadAction<CharactersState[]>) => {
+    setCharacters: (state, action: PayloadAction<TCharacter[]>) => {
         return [...action.payload, ...state]
     },
     removeCharacter: (state, action: PayloadAction<number>) => {

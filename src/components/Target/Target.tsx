@@ -1,7 +1,6 @@
 import { removeCharacter } from '@store/charactersSlice';
 import { addNewHate, addNewLike, addNewIDK } from '@store/counterSlice';
 import { RootState } from '@store/store';
-import { TCharacter } from '@type/common';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,17 +8,17 @@ type TProps = {
   label: string;
   styles: string;
   targetType: 'hate' | 'like' | 'idk';
-  curCard: TCharacter;
 };
 
-export const Target: React.FC<TProps> = ({ label, styles, targetType, curCard }) => {
-  console.log('target render');
+export const Target: React.FC<TProps> = ({ label, styles, targetType }) => {
   const myCountsRedux = useSelector((state: RootState) => state.counters);
+  const curCard = useSelector((state: RootState) => state.curCard);
+
   const dispatch = useDispatch();
 
   return (
     <div
-      className={`target absolute ${styles} rounded flex items-center justify-center w-32 h-32`}
+      className={`target absolute ${styles} rounded flex items-center justify-center w-32 h-32 `}
       onDragStart={(e) => {
         e.preventDefault();
       }}

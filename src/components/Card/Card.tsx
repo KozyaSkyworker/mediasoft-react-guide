@@ -1,16 +1,17 @@
+import { setCurCard } from '@store/curCardSlice';
 import { TCharacter } from '@type/common';
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 
 type TProps = {
   char: TCharacter;
-  setCurCard: React.Dispatch<React.SetStateAction<TCharacter | null>>;
 };
 
-export const Card: React.FC<TProps> = React.memo(function Card({ char, setCurCard }) {
-  console.log('card render');
+export const Card: React.FC<TProps> = React.memo(function Card({ char }) {
+  const dispatch = useDispatch();
+
   const handlerDragStart = (event: React.DragEvent<HTMLDivElement>, char: TCharacter) => {
-    console.log('start card grab');
-    setCurCard(char);
+    dispatch(setCurCard(char));
   };
 
   return (

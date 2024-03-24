@@ -8,3 +8,9 @@ export type TCharacter = {
     name: string,
     image: string
 }
+
+export type TCounters = {
+    hate: string[],
+    like: string[],
+    idk: string[]
+}
